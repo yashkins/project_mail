@@ -25,14 +25,18 @@ def create_dict_name_uid():
         result, data = mail.uid('fetch', id, '(RFC822)')
         raw_email = data[0][1]
         email_message = email.message_from_bytes(raw_email)
-        name = email.utils.parseaddr(email_message['From'])
-        name = base64.b64decode(name[0][:-1].encode()).decode(errors='ignore')
-        dict_name_uid[name] = dict_name_uid.get(name, set()).add(id)
-        break
+        name, adress = email.utils.parseaddr(email_message['From'])
+        """name = base64.b64decode(name.encode()).decode(errors='ignore') если разберусь с кодировкой, то добавлю эту строку"""
+        dict_name_uid[adress] = dict_name_uid.get(adress, []) + [id]
+        
     return dict_name_uid
 
-for k,v in create_dict_name_uid().items():
-    print(k,v)
 
-    
+def delete(list_uids, mail):
+    for uid in list_uids:
+        mail.store(uid, '+FLAGS', '\\Deleted')
+        mail.expunge()
+        
+
+
 
