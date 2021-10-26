@@ -20,9 +20,8 @@ def get_imap(login=None, password=None, date=None):
     return list_uids, mail
 
 
-def create_dict_name_uid():    
+def create_dict_name_uid(list_uids, mail):    
     dict_name_uid = {}
-    list_uids, mail = get_imap()
     if not list_uids:
         return dict_name_uid
     for i in range(0,len(list_uids),500):
@@ -34,7 +33,6 @@ def create_dict_name_uid():
             name, adress = email.utils.parseaddr(email_message['From'])
             """name = base64.b64decode(name.encode()).decode(errors='ignore') если разберусь с кодировкой, то добавлю эту строку"""
             dict_name_uid[adress] = dict_name_uid.get(adress, []) + [uids[key]]  
-        break    
     return dict_name_uid
 
 
@@ -44,15 +42,3 @@ def delete(list_uids, mail):
     mail.expunge()
         
 
-#date_now = datetime.date.today().strftime("%d-%b-%Y")
-#print(date_now)
-  
-
-dict_name = create_dict_name_uid()
-for k,v in dict_name.items():
-    print(k,len(v))
-"""
-list_uids, mail = get_imap(date=date_now)
-print(list_uids)
-#delete(list_uids[-1:-2:-1], mail)
-"""
