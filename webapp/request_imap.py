@@ -2,7 +2,7 @@ import base64
 import datetime 
 import imaplib
 import email
-import settings
+import webapp.settings
 from tqdm import tqdm
 
 
