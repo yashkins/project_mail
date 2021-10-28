@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from webapp.request_imap import get_imap, create_dict_name_uid
+from webapp.request_imap import get_imap
+from webapp.request_imap import create_dict_name_uid
 
 def create_app():
     app = Flask(__name__)

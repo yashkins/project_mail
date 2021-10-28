@@ -2,8 +2,8 @@ import base64
 import datetime 
 import imaplib
 import email
-import webapp.settings
-from tqdm import tqdm
+import settings 
+
 
 
 def get_imap(login=None, password=None, date=None):
@@ -24,15 +24,16 @@ def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
     if not list_uids:
         return dict_name_uid
-    for i in range(0,len(list_uids),500):
-        uids = list_uids[i:i+500]  
+    for i in range(0,len(list_uids),10):
+        uids = list_uids[i:i+10]  
         result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
         for key, elem in enumerate(data[::2]):
             raw_email = elem[1]
             email_message = email.message_from_bytes(raw_email)
             name, adress = email.utils.parseaddr(email_message['From'])
             """name = base64.b64decode(name.encode()).decode(errors='ignore') если разберусь с кодировкой, то добавлю эту строку"""
-            dict_name_uid[adress] = dict_name_uid.get(adress, []) + [uids[key]]  
+            dict_name_uid[adress] = dict_name_uid.get(adress, []) + [uids[key]] 
+        break 
     return dict_name_uid
 
 
@@ -40,5 +41,10 @@ def delete(list_uids, mail):
     for uid in list_uids:
         mail.uid('STORE', uid, '+FLAGS', '(\\Deleted)')
     mail.expunge()
-        
 
+
+if __name__ == "__main__":       
+    mail, list_uids = get_imap()
+    dict_name_uids = create_dict_name_uid(mail, list_uids)
+    for k,v in dict_name_uids.items():
+        print(k,len(v))
