@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from webapp.request_imap import get_imap
-from webapp.request_imap import create_dict_name_uid
+from webapp.request_imap import get_imap, create_dict_name_uid
+
 
 def create_app():
     app = Flask(__name__)
@@ -10,5 +10,6 @@ def create_app():
         address = "yashkins@yandex.ru/Входящие"
         list_uids, mail = get_imap()
         dict_name_uid = create_dict_name_uid(list_uids, mail)
-        return render_template('index.html',page_title=page_title, address=address, dict_name_uid=dict_name_uid)
+        list_name_count = [(k,len(v)) for k,v in dict_name_uid.items()]
+        return render_template('index.html',page_title=page_title, address=address, list_name_count=list_name_count)
     return app
