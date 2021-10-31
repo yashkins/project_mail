@@ -24,8 +24,8 @@ def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
     if not list_uids:
         return dict_name_uid
-    for i in range(0,len(list_uids),10):
-        uids = list_uids[i:i+10]  
+    for i in range(0,len(list_uids),20):
+        uids = list_uids[i:i+20]  
         result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
         for key, elem in enumerate(data[::2]):
             raw_email = elem[1]
