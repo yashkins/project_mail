@@ -24,16 +24,19 @@ def get_imap(login=None, password=None, date=None):
 def parser(outque, data, uids, i):
     raw_email = data[i][1]
     email_message = email.message_from_bytes(raw_email)
-    name, adress = email.utils.parseaddr(email_message['From'])
+    try:
+        name, adress = email.utils.parseaddr(email_message['From'])
+    except TypeError:
+        print("empty header", "Номер письма: ", uids[i])
+        return
     outque.append((adress,uids[i]))
-
 
 def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
     if not list_uids:
         return dict_name_uid
-    for i in range(0,800,100):
-        uids = list_uids[i:i+100]
+    for i in range(0,100,20):
+        uids = list_uids[i:i+20]
         result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
         data = data[::2]
         outque = deque()
@@ -50,7 +53,11 @@ def create_dict_name_uid(list_uids, mail):
             except IndexError:
                 break
             dict_name_uid[adress] = dict_name_uid.get(adress, []) + [uid]
-    return dict_name_uid
+    dict_name_len = {k:len(v) for k,v in dict_name_uid.items()}
+    tuple_sort = sorted(dict_name_len.items(), key=lambda x:x[1],reverse=True)
+    dict_name_len = dict(tuple_sort)
+    return dict_name_uid, dict_name_len
+    
 
 
 def delete(list_uids, mail):
