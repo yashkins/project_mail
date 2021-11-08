@@ -17,13 +17,26 @@
     <div class='row'>
       <div class="col-12" style="height: 50px;"> </div> 
       {% for i in list_name_count %}
-      <div class="col-10">
+      <div class="col-8">
           <h4>{{i[0]}}</h4>
       </div>
       <div class="col-2">
           <h4>{{i[1]}}</h4>
       </div>
-      {% endfor %}     
+      </div class="col-2"
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+          </label>
+        </div>
+      </div>
+      {% endfor %} 
+      <div class="col-md-10">
+        <button type="button" class="btn btn-primary" disabled>Удалить все</button>
+        <button type="button" class="btn btn-light btn-lg"></button>
+        <button type="button" class="btn btn-primary">Удалить</button>
+      </div> 
+      <div class="col-6" style="width: 250px;"></div> 
     </div>
     </div>
     
