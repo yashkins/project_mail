@@ -12,6 +12,16 @@
     <title>{{page_title}}</title>
   </head>
   <body>
+    <style>
+      .checkbox-1x {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+}
+.checkbox-2x {
+    transform: scale(2);
+    -webkit-transform: scale(2);
+}
+    </style>
     <div class=container>
       <div class="col-12" style="height: 50px;"> </div> 
         <h1> {{address}} </h1>
@@ -26,7 +36,7 @@
       </div>
       <div class="row checkbox-row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input class="checkbox-1x" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
             </label>
           </div>
