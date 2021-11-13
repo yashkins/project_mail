@@ -1,11 +1,10 @@
 import base64
-import datetime
+import datetime 
 import imaplib
 import email
+from webapp import settings 
 import threading
 from collections import deque
-from webapp import settings
-import time
 
 
 def get_imap(login=None, password=None, date=None):
@@ -30,6 +29,7 @@ def parser(outque, data, uids, i):
         print("empty header", "Номер письма: ", uids[i])
         return
     outque.append((adress,uids[i]))
+
 
 def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
@@ -57,7 +57,6 @@ def create_dict_name_uid(list_uids, mail):
     tuple_sort = sorted(dict_name_len.items(), key=lambda x:x[1],reverse=True)
     dict_name_len = dict(tuple_sort)
     return dict_name_uid, dict_name_len
-    
 
 
 def delete(list_uids, mail):
@@ -66,12 +65,3 @@ def delete(list_uids, mail):
     mail.expunge()
 
 
-if __name__ == "__main__":
-    mail, list_uids = get_imap()
-    start = time.time()
-    dict_name_uids = create_dict_name_uid(mail, list_uids)
-    end = time.time()
-    for k,v in dict_name_uids.items():
-        print(k,len(v))
-    print(sum([len(v) for k,v in dict_name_uids.items()]))
-    print(end-start)
