@@ -6,6 +6,7 @@ from webapp import settings
 import threading
 from collections import deque
 
+
 def get_imap(login=None, password=None, date=None):
     password = settings.password
     login = settings.login
@@ -62,4 +63,5 @@ def delete(list_uids, mail):
     for uid in list_uids:
         mail.uid('STORE', uid, '+FLAGS', '(\\Deleted)')
     mail.expunge()
+
 
