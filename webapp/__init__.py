@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from webapp.request_imap import get_imap, create_dict_name_uid
+from flask import Flask, app, render_template
+from webapp.request_imap import get_imap, create_dict_name_uid, delete
 
 
 def create_app():
@@ -11,4 +11,15 @@ def create_app():
         list_uids, mail = get_imap()
         dict_name_uid, dict_name_len = create_dict_name_uid(list_uids, mail)
         return render_template('index.html',page_title=page_title, address=address, dict_name_len=dict_name_len)
+
+    @app.route('/del/')
+    def delet():
+        page_title = "Почтовый помошник"
+        address = "yashkins@yandex.ru/Входящие"
+        list_uids, mail = get_imap()
+        delete(list_uids[:1], mail)
+        list_uids, mail = get_imap()
+        dict_name_uid, dict_name_len = create_dict_name_uid(list_uids, mail)
+        return render_template('index.html',page_title=page_title, address=address, dict_name_len=dict_name_len)
     return app
+

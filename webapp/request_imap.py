@@ -35,8 +35,8 @@ def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
     if not list_uids:
         return dict_name_uid
-    for i in range(0,100,20):
-        uids = list_uids[i:i+20]
+    for i in range(0,20,10):
+        uids = list_uids[i:i+10]
         result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
         data = data[::2]
         outque = deque()
