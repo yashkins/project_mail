@@ -10,7 +10,11 @@ from collections import deque
 def get_imap(login=None, password=None, date=None):
     password = settings.password
     login = settings.login
-    mail = imaplib.IMAP4_SSL('imap.yandex.ru')
+    Flag = None
+    try:
+        mail = imaplib.IMAP4_SSL('imap.yandex.ru')
+    except:
+        return [], None
     mail.login(login, password)
     mail.select('Inbox')
     if not date:
@@ -34,10 +38,13 @@ def parser(outque, data, uids, i):
 def create_dict_name_uid(list_uids, mail):
     dict_name_uid = {}
     if not list_uids:
-        return dict_name_uid
+        return dict_name_uid, {}, mail
     for i in range(0,20,10):
         uids = list_uids[i:i+10]
-        result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
+        try:
+            result, data = mail.uid('fetch', b','.join(uids), '(RFC822.HEADER)')
+        except:
+            return {}, {}, None
         data = data[::2]
         outque = deque()
         list_join = []
@@ -56,7 +63,7 @@ def create_dict_name_uid(list_uids, mail):
     dict_name_len = {k:len(v) for k,v in dict_name_uid.items()}
     tuple_sort = sorted(dict_name_len.items(), key=lambda x:x[1],reverse=True)
     dict_name_len = dict(tuple_sort)
-    return dict_name_uid, dict_name_len
+    return dict_name_uid, dict_name_len, mail
 
 
 def delete(list_uids, mail):

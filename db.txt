@@ -1,0 +1,6 @@
+noreply@pravmir.ru b'10',b'18'
+newslist@rzd.ru b'22',b'39',b'45'
+dedhabar@mail.ru b'42'
+donotreply@rzd.ru b'44'
+alert@jobrapidoalert.com b'61',b'62',b'64',b'66',b'67',b'69'
+mail@change.org b'65',b'70'
